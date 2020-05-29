@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            border: 1px solid black;
+            min-width: 50px;
+            padding: 5px 10px;
+        }
+
+        tr > td:first-child {
+            text-align: center;
+        }
+    </style>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script>
+        function getWords() {
+            $.ajax({
+                url: '/words',
+                type: 'GET',
+                dataType: 'JSON',
+                success: function(data) {
+                    var html = '';
+                    $.each(data, function() {
+                        html += '<tr>';
+                        html += '<td>' + this['Id'] + '</td>';
+                        html += '<td>' + this['Name'] + '</td>';
+                        html += '<td>' + this['Mean'] + '</td>';
+                        html += '</tr>'
+                    });
+                    $('#wordList').html(html);
+                },error: function() {
+                    alert("error");
+                }
+            });
+        }
+
+        function addWord() {
+            if(!$.trim($('#Name').val())) {
+                alert('공백')
+            }
+            if(!$.trim($('#Mean').val())) {
+                alert('공백')
+            }
+
+            var data = JSON.stringify({Id:0, Name:$('#Name').val(), Mean:$('#Mean').val()});
+            $.ajax({
+                url: '/word',
+                type: 'POST',
+                data: data,
+                dataType: 'JSON',
+                success:function(data) {
+                    alert('등록')
+                    getWords();
+                },error:function() {
+                    alert('에러')
+                    getWords();
+                }
+            });
+            
+        }
+    </script>
+</head>
+<body onload="getWords()">
+    <form name="ajaxForm" id="ajaxForm" method="POST" onsubmit="return false;">
+        <label for="Name">Name</label>
+        <input type="text" name="Name" id="Name">
+        <br>
+        <label for="Mean">Mean</label>
+        <input type="text" name="Mean" id="Mean">
+        <br>
+        <button onclick="addWord()">Add</button>
+    </form>
+
+    <br>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Mean</th>
+            </tr>
+        </thead>
+        <tbody id="wordList">
+
+        </tbody>
+    </table>
+</body>
+</html>
