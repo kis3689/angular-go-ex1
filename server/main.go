@@ -32,22 +32,24 @@ func checkError(err error) {
 
 func main() {
 	myRouter := mux.NewRouter().StrictSlash(true)
-	//myRouter.HandleFunc("/", homePage)
-	//myRouter.HandleFunc("/word", insertWord).Methods("POST")
-	//myRouter.HandleFunc("/word/{id}", returnWord)
 	myRouter.HandleFunc("/words", returnWords).Methods("GET")
 	myRouter.HandleFunc("/words", insertWord).Methods("POST")
 	myRouter.HandleFunc("/words/{id}", updateWord).Methods("PUT")
 	myRouter.HandleFunc("/words/{id}", deleteWord).Methods("DELETE")
 	
-	//인도네시아어
+	//restAPI simple test
+	//myRouter.HandleFunc("/", homePage)
+	//myRouter.HandleFunc("/word", insertWord).Methods("POST")
+	//myRouter.HandleFunc("/word/{id}", returnWord)
+	
+	//bahasa
 	//myRouter.PathPrefix("/").Handler(http.FileServer(http.Dir("../webapp/dist/translate-id/")))
-	//한국어
+	//korean
 	//myRouter.PathPrefix("/").Handler(http.FileServer(http.Dir("../webapp/dist/translate-ko/")))
-
-	//기본 영어페이지
+	//eng
 	myRouter.PathPrefix("/").Handler(http.FileServer(http.Dir("../view/dist/view/")))
-	//집 공유기 외부접속 175.125.246.138
+	
+	//port 175.125.246.138
 	log.Fatal(http.ListenAndServe(":8000", myRouter))
 }
 
