@@ -36,7 +36,7 @@ func main() {
 	myRouter.HandleFunc("/words", insertWord).Methods("POST")
 	myRouter.HandleFunc("/words/{id}", updateWord).Methods("PUT")
 	myRouter.HandleFunc("/words/{id}", deleteWord).Methods("DELETE")
-	d
+	
 	//restAPI simple test
 	//myRouter.HandleFunc("/", homePage)
 	//myRouter.HandleFunc("/word", insertWord).Methods("POST")
